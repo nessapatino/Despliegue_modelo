@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Predicción</title>
+</head>
+<body>
+    <h1>Formulario de Predicción del Síndrome Metabólico</h1>
+    <form action="/api/v1/predict" method="post">
+        Edad: <input type="number" name="Age" required><br>
+        Sexo:
+        <select name="Sex" required>
+            <option value="Male">Masculino</option>
+            <option value="Female">Femenino</option>
+        </select><br>
+        Estado Civil:
+        <select name="Marital" required>
+            <option value="Married">Casado/a</option>
+            <option value="Single">Soltero/a</option>
+            <option value="Divorced">Divorciado/a</option>
+            <option value="Widowed">Viudo/a</option>
+        </select><br>
+        Ingreso Anual: <input type="number" step="0.01" name="Income" required><br>
+        Raza:
+        <select name="Race" required>
+            <option value="White">Blanco/a</option>
+            <option value="Black">Negro/a</option>
+            <option value="Asian">Asiático/a</option>
+            <option value="Hispanic">Hispano/a</option>
+            <option value="Other">Otro</option>
+        </select><br>
+        Circunferencia de Cintura: <input type="number" step="0.01" name="WaistCirc" required><br>
+        BMI: <input type="number" step="0.01" name="BMI" required><br>
+        Albuminuria: 
+        <select name= "Albuminuria" required>
+            <option value = "0">0</option>
+            <option value = "1">1</option>
+            <option value = "2">2</option>
+        </select><br>
+        Ácido Úrico: <input type="number" step="0.01" name="UricAcid" required><br>
+        Glucosa en Sangre: <input type="number" step="0.01" name="BloodGlucose" required><br>
+        HDL: <input type="number" step="0.01" name="HDL" required><br>
+        Triglicéridos: <input type="number" step="0.01" name="Triglycerides" required><br>
+        <input type="submit" value="Predecir">
+    </form>
+</body>
+</html>
