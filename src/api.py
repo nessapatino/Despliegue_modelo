@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, render_template_string, send_file
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from joblib import dump, load
@@ -14,8 +14,59 @@ app.config['DEBUG'] = True
 
 # Enruta la landing page (endpoint /)
 @app.route("/", methods=["GET"])
-def hello(): # Ligado al endopoint "/" o sea el home, con el método GET
-    return "Bienvenido a la API de predicción del síndrome metabólico"
+def hello_with_image_and_button():
+    # Devolver HTML que incluye el mensaje de bienvenida y un botón
+    return """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Bienvenido a la API de predicción del síndrome metabólico</title>
+        <style>
+            body {
+                background-image: url('/imagen');
+                background-repeat: no-repeat;
+                background-attachment: fixed;  
+                background-size: cover;
+                background-color: transparent;
+                color: white;
+                font-family: sans-serif;
+                text-align: center;
+            }
+            .content {
+                padding: 50px;
+            }
+            h1 {
+                font-size: 50px;
+            }
+            button {
+                font-size: 25px;
+                padding: 20px 30px;
+                border: none;
+                background-color: #007bff;
+                color: black;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            button:hover {
+                background-color: #0056b3;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="content">
+            <h1>PREDICCIÓN DE SÍNDROME METÁBOLICO</h1>
+            <a href="/predict"><button>Ir al formulario de predicción</button></a>
+        </div>
+    </body>
+    </html>
+    """
+
+@app.route("/imagen", methods=["GET"])
+def obtener_imagen():
+    # Suponiendo que la imagen está en la misma carpeta que tu archivo de Flask
+    return send_file('sm3.webp', mimetype='image/webp')
 
 @app.route("/predict", methods=["GET"])
 def show_form():
@@ -29,7 +80,7 @@ def predict():
     valid_sex = ['Male', 'Female']
     valid_marital = ['Married', 'Single', 'Divorced', 'Widowed']
     valid_race = ['White', 'Black', 'Asian', 'Hispanic', 'Other']
-    valid_albuminuria = [0,1,2]
+    valid_albuminuria = [0, 1, 2]
 
     # Obtener y validar argumentos
     try:
@@ -45,11 +96,16 @@ def predict():
         BloodGlucose = float(request.form['BloodGlucose'])
         HDL = float(request.form['HDL'])
         Triglycerides = float(request.form['Triglycerides'])
-
     except (KeyError, TypeError, ValueError):
-        return jsonify({'error': 'Tipos de entrada no válidos'}), 400
+        return render_template_string("""
+            <html>
+            <body>
+                <h1>Error en la entrada</h1>
+                <p>Tipos de entrada no válidos</p>
+            </body>
+            </html>
+        """), 400
 
-    # Verificar si los valores categóricos son válidos
     errors = {}
     if Sex not in valid_sex:
         errors['Sex'] = f"Entrada inválida. Valores permitidos: {valid_sex}"
@@ -60,11 +116,17 @@ def predict():
     if Albuminuria not in valid_albuminuria:
         errors['Albuminuria'] = f"Entrada invalida. Valores permitidos: {valid_albuminuria}"
 
-    # Si hay errores, retorna el mensaje con los errores
     if errors:
-        return jsonify({'error': 'Entradas inválidas', 'details': errors}), 400
+        error_message = "<br>".join([f"{k}: {v}" for k, v in errors.items()])
+        return render_template_string(f"""
+            <html>
+            <body>
+                <h1>Error en la entrada</h1>
+                <p>{error_message}</p>
+            </body>
+            </html>
+        """), 400
 
-    # Crear dataframe y predecir
     data_dict = {
         'Age': [Age],
         'Sex': [Sex],
@@ -79,12 +141,18 @@ def predict():
         'HDL': [HDL],
         'Triglycerides': [Triglycerides]
     }
-
     df = pd.DataFrame(data_dict)
     prediction = model.predict(df)[0]
-    predict = 'El paciente presenta MetabolicSyndrome' if prediction == 1 else 'El paciente NO presenta MetabolicSyndrome'
+    predict_text = 'El paciente presenta MetabolicSyndrome' if prediction == 1 else 'El paciente NO presenta MetabolicSyndrome'
 
-    return jsonify({'prediction': predict})
+    return render_template_string(f"""
+        <html>
+        <body>
+            <h1>Resultado de la Predicción</h1>
+            <p>{predict_text}</p>
+        </body>
+        </html>
+    """)
 
 
 @app.route("/api/v1/retrain", methods=["GET"])
