@@ -77,7 +77,7 @@ def show_form():
 
 @app.route("/api/v1/predict", methods=["POST"])
 def predict():
-    model = load(open(root_path + 'mejor_modelo_XGBoost.joblib'))
+    model = load(root_path + 'mejor_modelo_XGBoost.joblib')
     
     # Listas de valores permitidos
     valid_sex = ['Male', 'Female']
