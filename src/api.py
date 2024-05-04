@@ -9,8 +9,11 @@ os.chdir(os.path.dirname(__file__))
 from funciones import *
 from pipeline import pipe
 
+
 app = Flask(__name__)
 app.config['DEBUG'] = True
+
+root_path= "/home/nessa2103/"
 
 # Enruta la landing page (endpoint /)
 @app.route("/", methods=["GET"])
@@ -74,7 +77,7 @@ def show_form():
 
 @app.route("/api/v1/predict", methods=["POST"])
 def predict():
-    model = load('mejor_modelo_XGBoost.joblib')
+    model = load(open(root_path + 'mejor_modelo_XGBoost.joblib'))
     
     # Listas de valores permitidos
     valid_sex = ['Male', 'Female']
@@ -157,10 +160,10 @@ def predict():
 
 @app.route("/api/v1/retrain", methods=["GET"])
 def retrain():
-    if not os.path.exists("data/MetabolicSyndrome.csv"):
+    if not os.path.exists(root_path + "data/MetabolicSyndrome.csv"):
         return "Archivo de datos no encontrado. Por favor, cargue los datos antes de reintentar...",404
     
-    df = pd.read_csv("data/MetabolicSyndrome.csv")
+    df = pd.read_csv(root_path + "data/MetabolicSyndrome.csv")
     target = 'MetabolicSyndrome'
     print('Entrenando')
     pipe(df,target)
