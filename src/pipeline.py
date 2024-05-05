@@ -1,21 +1,20 @@
 import numpy as np
 import pandas as pd
 
-from sklearn.preprocessing import MinMaxScaler, StandardScaler, PowerTransformer,OneHotEncoder, FunctionTransformer
+from sklearn.preprocessing import PowerTransformer,OneHotEncoder, FunctionTransformer
 from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
-from sklearn.pipeline import Pipeline, make_pipeline
+from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.compose import ColumnTransformer
-from sklearn.metrics import ConfusionMatrixDisplay, classification_report, accuracy_score, recall_score, balanced_accuracy_score, make_scorer
 from sklearn.svm import SVC
 from xgboost import XGBClassifier
-from lightgbm import LGBMClassifier
-from catboost import CatBoostClassifier
+# from lightgbm import LGBMClassifier
+# from catboost import CatBoostClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
-from joblib import dump, load
+from joblib import dump
 
 
 def pipe(df,target):
@@ -170,9 +169,9 @@ def pipe(df,target):
     modelos = {
         'RandomForest': RandomForestClassifier(random_state=42, class_weight="balanced"),
         'XGBoost': XGBClassifier(verbosity=0, random_state=42, scale_pos_weight=70/30),
-        'LightGBM': LGBMClassifier(random_state=42, verbose=-100, class_weight='balanced'),
+        # 'LightGBM': LGBMClassifier(random_state=42, verbose=-100, class_weight='balanced'),
         'LogisticRegression': LogisticRegression(max_iter=10000, class_weight='balanced'),
-        'CatBoost': CatBoostClassifier(random_state=42, verbose=False, auto_class_weights='Balanced'),
+        # 'CatBoost': CatBoostClassifier(random_state=42, verbose=False, auto_class_weights='Balanced'),
         'DecisionTree': DecisionTreeClassifier(random_state=42, class_weight="balanced"),
         'SVC': SVC(random_state=42, class_weight='balanced'),
         'KNeighbors': KNeighborsClassifier(n_neighbors=4)
@@ -207,16 +206,16 @@ def pipe(df,target):
         'classifier__subsample': [0.6, 0.8, 1.0],
         'classifier__colsample_bytree': [0.6, 0.8, 1.0]
     }
-    param_grid_lgb= {
-        "classifier__max_depth": [-1,5,10],
-        "classifier__num_leaves": [31, 50],
-        "classifier__learning_rate": [0.1, 0.01],
-        "classifier__n_estimators": [100, 200],
-        "classifier__class_weight": ["balanced", None], 
-        "classifier__min_child_samples": [20, 30],
-        "classifier__subsample": [0.8, 1.0],
-        "classifier__colsample_bytree": [0.8, 1.0]
-    }
+    # param_grid_lgb= {
+    #     "classifier__max_depth": [-1,5,10],
+    #     "classifier__num_leaves": [31, 50],
+    #     "classifier__learning_rate": [0.1, 0.01],
+    #     "classifier__n_estimators": [100, 200],
+    #     "classifier__class_weight": ["balanced", None], 
+    #     "classifier__min_child_samples": [20, 30],
+    #     "classifier__subsample": [0.8, 1.0],
+    #     "classifier__colsample_bytree": [0.8, 1.0]
+    # }
     param_grid_tree = {
         "classifier__criterion": ["gini","entropy"],
         "classifier__splitter": ["best", "random"],
@@ -236,14 +235,14 @@ def pipe(df,target):
         "classifier__weights":['uniform', 'distance'],
         "classifier__metric":["manhattan","euclidean","chebyshev"]
     }
-    param_grid_cat= {
-        "classifier__iterations": [100, 300], 
-        "classifier__learning_rate": [0.01, 0.05, 0.1],  
-        "classifier__depth": [4, 6, 8],  
-        "classifier__l2_leaf_reg": [1, 3, 5],  
-        "classifier__bagging_temperature": [0, 1, 10],
-        "classifier__auto_class_weights": ["Balanced"]
-    }
+    # param_grid_cat= {
+    #     "classifier__iterations": [100, 300], 
+    #     "classifier__learning_rate": [0.01, 0.05, 0.1],  
+    #     "classifier__depth": [4, 6, 8],  
+    #     "classifier__l2_leaf_reg": [1, 3, 5],  
+    #     "classifier__bagging_temperature": [0, 1, 10],
+    #     "classifier__auto_class_weights": ["Balanced"]
+    # }
     param_grid_svc= {
         "classifier__C":[0.01, 0.1, 1, 10, 100],
         "classifier__kernel":['linear', 'poly', 'rbf', 'sigmoid'],
@@ -254,11 +253,11 @@ def pipe(df,target):
     modelos = {
         'Random_Forest': (RandomForestClassifier(random_state=42), param_grid_rf),
         'XGBoost': (XGBClassifier(verbosity=0, random_state=42, scale_pos_weight=70/30), param_grid_xgb),
-        'LightGBM':(LGBMClassifier(random_state= 42, verbose = -100), param_grid_lgb),
+        # 'LightGBM':(LGBMClassifier(random_state= 42, verbose = -100), param_grid_lgb),
         'DecisionTree':(DecisionTreeClassifier(random_state= 42), param_grid_tree),
         'LogisticRegression':(LogisticRegression(random_state=42), param_grid_lg),
         'KNeighbors':(KNeighborsClassifier(), param_grid_knn),
-        'CatBoost':(CatBoostClassifier(random_state= 42, verbose= False), param_grid_cat),
+        # 'CatBoost':(CatBoostClassifier(random_state= 42, verbose= False), param_grid_cat),
         'SVC':(SVC(random_state= 42), param_grid_svc),
     }
 
