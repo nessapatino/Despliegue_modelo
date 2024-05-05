@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, render_template_string, send_file
 import pandas as pd
-from joblib import load
+import pickle
 
 import os
 os.chdir(os.path.dirname(__file__))
@@ -140,7 +140,8 @@ def show_form():
 @app.route("/api/v1/predict", methods=["POST"])
 def predict():
 
-    model = load(root_path + 'modelo_entrenado.pkl')
+    with open('modelo_entrenado.pkl', 'rb') as file:
+        model = pickle.load(file)
     
     # Listas de valores permitidos
     valid_sex = ['Male', 'Female']
