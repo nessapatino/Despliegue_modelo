@@ -140,7 +140,7 @@ def predict():
         return df[['WaistCirc']]
 
     #####################################
-    model = load(root_path + 'mejor_modelo_XGBoost.joblib')
+    model = load(root_path + 'modelo_entrenado.pkl')
     
     # Listas de valores permitidos
     valid_sex = ['Male', 'Female']
