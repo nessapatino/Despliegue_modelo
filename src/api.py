@@ -5,7 +5,6 @@ import funciones
 import os
 os.chdir(os.path.dirname(__file__))
 
-from funciones import *
 from pipeline import pipe
 
 
