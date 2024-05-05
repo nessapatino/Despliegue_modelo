@@ -1,15 +1,17 @@
 from flask import Flask, request, render_template, render_template_string, send_file
 import pandas as pd
 import pickle
-from funciones import categorize_BMI, categorize_BloodGlucose, categorize_Triglycerides, categorize_HDL, categorize_WaistCirc
-
+import funciones
 import os
 os.chdir(os.path.dirname(__file__))
-from funciones import categorize_BMI, categorize_BloodGlucose, categorize_Triglycerides, categorize_HDL, categorize_WaistCirc
 
-# from funciones import *
+from funciones import *
 from pipeline import pipe
 
+try:
+    categorize_BMI()
+except Exception as e:
+    print(e)
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
