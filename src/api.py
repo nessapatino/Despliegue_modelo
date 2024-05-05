@@ -8,10 +8,6 @@ os.chdir(os.path.dirname(__file__))
 from funciones import *
 from pipeline import pipe
 
-try:
-    categorize_BMI()
-except Exception as e:
-    print(e)
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -176,6 +172,11 @@ def retrain():
     return "Modelo reentrenado y guardado exitosamente.", 200
 
 if __name__ == "__main__":
+
+    try:
+        categorize_BMI()
+    except Exception as e:
+        print(e)
     
     app.run(debug=True)
 
