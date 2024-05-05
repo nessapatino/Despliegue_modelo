@@ -75,8 +75,8 @@ from pipeline import pipe
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
-root_path= "/home/nessa2103/Despliegue_modelo/src/"
-# root_path = ""
+# root_path= "/home/nessa2103/Despliegue_modelo/src/"
+root_path = ""
 # Enruta la landing page (endpoint /)
 @app.route("/", methods=["GET"])
 def hello_with_image_and_button():
