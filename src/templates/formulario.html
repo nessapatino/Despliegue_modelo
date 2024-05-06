@@ -45,7 +45,7 @@
 <body>
     <h1>Formulario de Predicción del Síndrome Metabólico</h1>
     <form action="/api/v1/predict" method="post">
-        <label>Edad: <input type="number" name="Age" required></label>
+        <label>Edad:<input type="number" name="Age" required min="15" max="110"></label>
         <label>Sexo:
             <select name="Sex" required>
                 <option value="Male">Masculino</option>
@@ -58,15 +58,18 @@
                 <option value="Single">Soltero/a</option>
                 <option value="Divorced">Divorciado/a</option>
                 <option value="Widowed">Viudo/a</option>
+                <option value="Separated">Seperado/a</option>
+                <option value="Unk">Desconocido</option>
             </select>
         </label>
-        <label>Ingreso Anual: <input type="number" step="0.01" name="Income" required></label>
+        <label>Ingreso Anual: <input type="number" step="0.01" name="Income" required min="0"></label>
         <label>Raza:
             <select name="Race" required>
                 <option value="White">Blanco/a</option>
                 <option value="Black">Negro/a</option>
                 <option value="Asian">Asiático/a</option>
                 <option value="Hispanic">Hispano/a</option>
+                <option value="MexAmerican">MexAmerican</option>
                 <option value="Other">Otro</option>
             </select>
         </label>
@@ -74,9 +77,9 @@
         <label>BMI: <input type="number" step="0.01" name="BMI" required></label>
         <label>Albuminuria:
             <select name="Albuminuria" required>
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
+                <option value="0">Valor Normal</option>
+                <option value="1">Moderadamente incrementada</option>
+                <option value="2">Altamente incrementada</option>
             </select>
         </label>
         <label>Ácido Úrico: <input type="number" step="0.01" name="UricAcid" required></label>
