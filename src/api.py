@@ -11,8 +11,8 @@ from pipeline import pipe
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
-# root_path= "/home/nessa2103/Despliegue_modelo/src/"
-root_path = ""
+root_path= "/home/nessa2103/Despliegue_modelo/src/"
+# root_path = ""
 # Enruta la landing page (endpoint /)
 @app.route("/", methods=["GET"])
 def hello_with_image_and_button():
@@ -81,8 +81,8 @@ def predict():
     
     # Listas de valores permitidos
     valid_sex = ['Male', 'Female']
-    valid_marital = ['Married', 'Single', 'Divorced', 'Widowed']
-    valid_race = ['White', 'Black', 'Asian', 'Hispanic', 'Other']
+    valid_marital = ['Married', 'Single', 'Divorced', 'Widowed','Unk','Separated']
+    valid_race = ['White', 'Black', 'Asian', 'Hispanic', 'Other','MexAmerican']
     valid_albuminuria = [0, 1, 2]
 
     # Obtener y validar argumentos
