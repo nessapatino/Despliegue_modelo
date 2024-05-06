@@ -7,7 +7,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.compose import ColumnTransformer
 from sklearn.svm import SVC
-from xgboost import XGBClassifier
+# from xgboost import XGBClassifier
 # from lightgbm import LGBMClassifier
 # from catboost import CatBoostClassifier
 from sklearn.tree import DecisionTreeClassifier
@@ -112,7 +112,7 @@ def pipe(df,target, categorize_BMI, categorize_BloodGlucose, categorize_Triglyce
 
     modelos = {
         'RandomForest': RandomForestClassifier(random_state=42, class_weight="balanced"),
-        'XGBoost': XGBClassifier(verbosity=0, random_state=42, scale_pos_weight=70/30),
+        # 'XGBoost': XGBClassifier(verbosity=0, random_state=42, scale_pos_weight=70/30),
         # 'LightGBM': LGBMClassifier(random_state=42, verbose=-100, class_weight='balanced'),
         'LogisticRegression': LogisticRegression(max_iter=10000, class_weight='balanced'),
         # 'CatBoost': CatBoostClassifier(random_state=42, verbose=False, auto_class_weights='Balanced'),
@@ -143,13 +143,13 @@ def pipe(df,target, categorize_BMI, categorize_BloodGlucose, categorize_Triglyce
         "classifier__max_features": ["sqrt","log2",None],
         "classifier__class_weight": ["balanced", None],
     }
-    param_grid_xgb= {
-        'classifier__n_estimators': [50, 100, 200],
-        'classifier__learning_rate': [0.01, 0.05, 0.1],
-        'classifier__max_depth': [3, 5, 7],
-        'classifier__subsample': [0.6, 0.8, 1.0],
-        'classifier__colsample_bytree': [0.6, 0.8, 1.0]
-    }
+    # param_grid_xgb= {
+        # 'classifier__n_estimators': [50, 100, 200],
+        # 'classifier__learning_rate': [0.01, 0.05, 0.1],
+        # 'classifier__max_depth': [3, 5, 7],
+        # 'classifier__subsample': [0.6, 0.8, 1.0],
+        # 'classifier__colsample_bytree': [0.6, 0.8, 1.0]
+    # }
     # param_grid_lgb= {
     #     "classifier__max_depth": [-1,5,10],
     #     "classifier__num_leaves": [31, 50],
@@ -196,7 +196,7 @@ def pipe(df,target, categorize_BMI, categorize_BloodGlucose, categorize_Triglyce
 
     modelos = {
         'Random_Forest': (RandomForestClassifier(random_state=42), param_grid_rf),
-        'XGBoost': (XGBClassifier(verbosity=0, random_state=42, scale_pos_weight=70/30), param_grid_xgb),
+        # 'XGBoost': (XGBClassifier(verbosity=0, random_state=42, scale_pos_weight=70/30), param_grid_xgb),
         # 'LightGBM':(LGBMClassifier(random_state= 42, verbose = -100), param_grid_lgb),
         'DecisionTree':(DecisionTreeClassifier(random_state= 42), param_grid_tree),
         'LogisticRegression':(LogisticRegression(random_state=42), param_grid_lg),
