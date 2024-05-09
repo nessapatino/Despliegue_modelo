@@ -182,7 +182,7 @@ def retrain():
 @app.route('/webhook_2024', methods=['POST'])
 def webhook():
     # Ruta al repositorio donde se realizará el pull
-    path_repo = root_path
+    path_repo = 'https://sindromemetabolico.pythonanywhere.com/'
     servidor_web = '/var/www/sindromemetabolico_pythonanywhere_com_wsgi.py' 
 
     # Comprueba si la solicitud POST contiene datos JSON
