@@ -76,7 +76,7 @@ def show_form():
 @app.route("/api/v1/predict", methods=["POST"])
 def predict():
 
-    with open('modelo_entrenado.pkl', 'rb') as file:
+    with open('mejor_modelo_SVC.pkl', 'rb') as file:
         model = pickle.load(file)
     
     # Listas de valores permitidos
@@ -149,14 +149,22 @@ def predict():
     predict_text = 'El paciente presenta MetabolicSyndrome' if prediction == 1 else 'El paciente NO presenta MetabolicSyndrome'
 
     return render_template_string(f"""
-        <html>
+    <html>
+        <head>
+            <style>
+                body {{
+                    background-color: #92a8d1;
+                    font-family: Arial, sans-serif;
+                    padding: 20px;
+                }}
+            </style>
+        </head>
         <body>
             <h1>Resultado de la Predicción</h1>
             <p>{predict_text}</p>
         </body>
-        </html>
+    </html>
     """)
-
 
 @app.route("/api/v1/retrain", methods=["GET"])
 def retrain():

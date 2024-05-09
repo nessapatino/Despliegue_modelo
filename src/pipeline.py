@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-
+import pickle
 from sklearn.preprocessing import PowerTransformer,OneHotEncoder, FunctionTransformer
 from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
 from sklearn.pipeline import Pipeline
@@ -15,6 +15,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from joblib import dump
+
 from funciones import categorize_BMI, categorize_BloodGlucose, categorize_Triglycerides, categorize_HDL, categorize_WaistCirc
 
 
@@ -222,11 +223,20 @@ def pipe(df,target, categorize_BMI, categorize_BloodGlucose, categorize_Triglyce
     df_resultadosGS = pd.DataFrame.from_dict(resultados, orient='index', columns=['Media Recall'])
     df_resultadosGS.sort_values(by='Media Recall', ascending=False, inplace=True)
 
-    mejor_modelo_nombre = df_resultadosGS.idxmax()[0]
+    # mejor_modelo_nombre = df_resultadosGS.idxmax()[0]
 
+    # mejor_modelo = modelos_gs[mejor_modelo_nombre].best_estimator_
+
+    # dump(mejor_modelo, f'mejor_modelo_{mejor_modelo_nombre}2.joblib')
+    
+
+    mejor_modelo_nombre = df_resultadosGS.idxmax()[0]
     mejor_modelo = modelos_gs[mejor_modelo_nombre].best_estimator_
 
-    dump(mejor_modelo, f'mejor_modelo_{mejor_modelo_nombre}2.joblib')
+# Guardar el modelo utilizando pickle
+    with open(f'mejor_modelo_{mejor_modelo_nombre}.pkl', 'wb') as file:
+        pickle.dump(mejor_modelo, file)
+
 
 if __name__ == "__main__":
     print('Cargando datos...')
