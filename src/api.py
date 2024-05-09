@@ -11,7 +11,7 @@ from pipeline import pipe
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
-root_path= "/home/nessa2103/Despliegue_modelo/src/"
+root_path= "/home/Sindrome_Metabolico/Despliegue_modelo/src/"
 # root_path = ""
 # Enruta la landing page (endpoint /)
 @app.route("/", methods=["GET"])
