@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, render_template_string, send_file
 import pandas as pd
 import pickle
-import funciones
+from funciones import categorize_BMI, categorize_BloodGlucose, categorize_Triglycerides, categorize_HDL, categorize_WaistCirc
 import os
 os.chdir(os.path.dirname(__file__))
 
@@ -174,7 +174,7 @@ def retrain():
     df = pd.read_csv(root_path + "data/MetabolicSyndrome.csv")
     target = 'MetabolicSyndrome'
     print('Entrenando')
-    pipe(df,target)
+    pipe(df,target,categorize_BMI, categorize_BloodGlucose, categorize_Triglycerides, categorize_HDL, categorize_WaistCirc)
 
     return "Modelo reentrenado y guardado exitosamente.", 200
 
