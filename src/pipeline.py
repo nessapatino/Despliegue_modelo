@@ -14,7 +14,6 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
-from joblib import dump
 
 from funciones import categorize_BMI, categorize_BloodGlucose, categorize_Triglycerides, categorize_HDL, categorize_WaistCirc
 
@@ -180,14 +179,14 @@ def pipe(df,target, categorize_BMI, categorize_BloodGlucose, categorize_Triglyce
         "classifier__weights":['uniform', 'distance'],
         "classifier__metric":["manhattan","euclidean","chebyshev"]
     }
-    param_grid_cat= {
-        "classifier__iterations": [100, 300], 
-        "classifier__learning_rate": [0.01, 0.05, 0.1],  
-        "classifier__depth": [4, 6, 8],  
-        "classifier__l2_leaf_reg": [1, 3, 5],  
-        "classifier__bagging_temperature": [0, 1, 10],
-        "classifier__auto_class_weights": ["Balanced"]
-    }
+    # param_grid_cat= {
+    #     "classifier__iterations": [100, 300], 
+    #     "classifier__learning_rate": [0.01, 0.05, 0.1],  
+    #     "classifier__depth": [4, 6, 8],  
+    #     "classifier__l2_leaf_reg": [1, 3, 5],  
+    #     "classifier__bagging_temperature": [0, 1, 10],
+    #     "classifier__auto_class_weights": ["Balanced"]
+    # }
     param_grid_svc= {
         "classifier__C":[0.01, 0.1, 1, 10, 100],
         "classifier__kernel":['linear', 'poly', 'rbf', 'sigmoid'],
@@ -223,17 +222,11 @@ def pipe(df,target, categorize_BMI, categorize_BloodGlucose, categorize_Triglyce
     df_resultadosGS = pd.DataFrame.from_dict(resultados, orient='index', columns=['Media Recall'])
     df_resultadosGS.sort_values(by='Media Recall', ascending=False, inplace=True)
 
-    # mejor_modelo_nombre = df_resultadosGS.idxmax()[0]
-
-    # mejor_modelo = modelos_gs[mejor_modelo_nombre].best_estimator_
-
-    # dump(mejor_modelo, f'mejor_modelo_{mejor_modelo_nombre}2.joblib')
-    
 
     mejor_modelo_nombre = df_resultadosGS.idxmax()[0]
     mejor_modelo = modelos_gs[mejor_modelo_nombre].best_estimator_
 
-# Guardar el modelo utilizando pickle
+    # Guardar el modelo utilizando pickle
     with open(f'mejor_modelo_{mejor_modelo_nombre}.pkl', 'wb') as file:
         pickle.dump(mejor_modelo, file)
 
@@ -243,3 +236,4 @@ if __name__ == "__main__":
     df = pd.read_csv("src/data/MetabolicSyndrome.csv")
     target = 'MetabolicSyndrome'
     pipe(df,target, categorize_BMI, categorize_BloodGlucose, categorize_Triglycerides, categorize_HDL, categorize_WaistCirc)
+    
