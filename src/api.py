@@ -72,7 +72,7 @@ def hello_with_image_and_button():
     </head>
     <body>
         <div class="content">
-            <h1>PREDICCIÓN DE SÍNDROME METÁBOLICO</h1>
+            <h1>PREDICCIÓN DE SÍNDROME METÁBOLICO..</h1>
             <a href="/predict"><button>Ir al formulario de predicción</button></a>
         </div>
     </body>
