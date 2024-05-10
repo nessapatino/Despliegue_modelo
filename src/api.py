@@ -4,7 +4,7 @@ import pickle
 import subprocess
 from funciones import categorize_BMI, categorize_BloodGlucose, categorize_Triglycerides, categorize_HDL, categorize_WaistCirc
 import os
-import pygit as git
+import git
 os.chdir(os.path.dirname(__file__))
 
 from pipeline import pipe
