@@ -4,6 +4,7 @@ import pickle
 import subprocess
 from funciones import categorize_BMI, categorize_BloodGlucose, categorize_Triglycerides, categorize_HDL, categorize_WaistCirc
 import os
+import pygit as git
 os.chdir(os.path.dirname(__file__))
 
 from pipeline import pipe
@@ -12,9 +13,19 @@ from pipeline import pipe
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
+@app.route('/git_update', methods=['POST'])
+def git_update():
+    repo = git.Repo('./Despliegue_modelo')
+    origin = repo.remotes.origin
+    repo.create_head('main',
+                     origin.refs.main).set_tracking_branch(origin.refs.main).checkout()
+    origin.pull()
+    return '', 200
+
 root_path= "/home/SindromeMetabolico/Despliegue_modelo/src/"
 # root_path = ""
 # Enruta la landing page (endpoint /)
+
 @app.route("/", methods=["GET"])
 def hello_with_image_and_button():
     # Devolver HTML que incluye el mensaje de bienvenida y un botón
@@ -179,38 +190,7 @@ def retrain():
 
     return "Modelo reentrenado y guardado exitosamente.", 200
 
-@app.route('/webhook_2024', methods=['POST'])
-def webhook():
-    # Ruta al repositorio donde se realizará el pull
-    path_repo = '/home/SindromeMetabolico/Despliegue_modelo'
-    servidor_web = '/var/www/sindromemetabolico_pythonanywhere_com_wsgi.py' 
 
-    # Comprueba si la solicitud POST contiene datos JSON
-    if request.is_json:
-        payload = request.json
-        # Verifica si la carga útil (payload) contiene información sobre el repositorio
-        if 'repository' in payload:
-            # Extrae el nombre del repositorio y la URL de clonación
-            repo_name = payload['repository']['name']
-            clone_url = payload['repository']['clone_url']
-            
-            # Cambia al directorio del repositorio
-            try:
-                os.chdir(path_repo)
-            except FileNotFoundError:
-                return jsonify({'message': 'El directorio del repositorio no existe'}), 404
-
-            # Realiza un git pull en el repositorio
-            try:
-                subprocess.run(['git', 'pull', clone_url], check=True)
-                subprocess.run(['touch', servidor_web], check=True) # Trick to automatically reload PythonAnywhere WebServer
-                return jsonify({'message': f'Se realizó un git pull en el repositorio {repo_name}'}), 200
-            except subprocess.CalledProcessError:
-                return jsonify({'message': f'Error al realizar git pull en el repositorio {repo_name}'}), 500
-        else:
-            return jsonify({'message': 'No se encontró información sobre el repositorio en la carga útil (payload)'}), 400
-    else:
-        return jsonify({'message': 'La solicitud no contiene datos JSON'}), 400
     
 
 if __name__ == "__main__":

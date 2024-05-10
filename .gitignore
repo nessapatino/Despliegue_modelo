@@ -1,3 +1,4 @@
 *.joblib
 *.pyc
 __pycache__/
+*.log
