@@ -191,8 +191,25 @@ def retrain():
     print('Entrenando')
     pipe(df,target,categorize_BMI, categorize_BloodGlucose, categorize_Triglycerides, categorize_HDL, categorize_WaistCirc)
 
-    return "Modelo reentrenado y guardado exitosamente.", 200
-
+    retrain_text= "Modelo reentrenado y guardado exitosamente.", 200
+    
+    return render_template_string(f"""
+    <html>
+        <head>
+            <style>
+                body {{
+                    background-color: #92a8d1;
+                    font-family: Arial, sans-serif;
+                    padding: 20px;
+                }}
+            </style>
+        </head>
+        <body>
+            <h1>Resultado de la Predicción</h1>
+            <p>{retrain_text}</p>
+        </body>
+    </html>
+    """)
 
     
 
