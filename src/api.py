@@ -15,7 +15,7 @@ app.config['DEBUG'] = True
 
 @app.route('/git_update', methods=['POST'])
 def git_update():
-    repo = Repo('./Despliegue_modelo')
+    repo = Repo('/home/SindromeMetabolico/Despliegue_modelo')
     origin = repo.remotes.origin
 
     # Asegúrate de que 'main' es el nombre correcto de la rama, y de que existe en el repositorio remoto
