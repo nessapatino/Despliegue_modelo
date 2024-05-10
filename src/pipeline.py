@@ -6,13 +6,13 @@ from sklearn.model_selection import train_test_split, cross_val_score, GridSearc
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.compose import ColumnTransformer
-from sklearn.svm import SVC
+# from sklearn.svm import SVC
 # from xgboost import XGBClassifier
 # from lightgbm import LGBMClassifier
 # from catboost import CatBoostClassifier
 # from sklearn.tree import DecisionTreeClassifier
 # from sklearn.ensemble import RandomForestClassifier
-# from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LogisticRegression
 # from sklearn.neighbors import KNeighborsClassifier
 
 from funciones import categorize_BMI, categorize_BloodGlucose, categorize_Triglycerides, categorize_HDL, categorize_WaistCirc
@@ -114,10 +114,10 @@ def pipe(df,target, categorize_BMI, categorize_BloodGlucose, categorize_Triglyce
         # 'RandomForest': RandomForestClassifier(random_state=42, class_weight="balanced"),
         # 'XGBoost': XGBClassifier(verbosity=0, random_state=42, scale_pos_weight=70/30),
         # 'LightGBM': LGBMClassifier(random_state=42, verbose=-100, class_weight='balanced'),
-        # 'LogisticRegression': LogisticRegression(max_iter=10000, class_weight='balanced'),
+        'LogisticRegression': LogisticRegression(max_iter=10000, class_weight='balanced'),
         # 'CatBoost': CatBoostClassifier(random_state=42, verbose=False, auto_class_weights='Balanced'),
         # 'DecisionTree': DecisionTreeClassifier(random_state=42, class_weight="balanced"),
-        'SVC': SVC(random_state=42, class_weight='balanced'),
+        # 'SVC': SVC(random_state=42, class_weight='balanced'),
         # 'KNeighbors': KNeighborsClassifier(n_neighbors=4)
     }
 
@@ -169,11 +169,11 @@ def pipe(df,target, categorize_BMI, categorize_BloodGlucose, categorize_Triglyce
     #     "classifier__max_features": ["sqrt","log2",None],
     #     "classifier__class_weight": ["balanced", None]
     # }
-    # param_grid_lg= {
-    #     "classifier__C":[0.01, 0.1, 1, 10],
-    #     "classifier__max_iter":[1000,2000,5000],
-    #     "classifier__class_weight":["balanced",None]
-    # }                
+    param_grid_lg= {
+        "classifier__C":[0.01, 0.1, 1, 10],
+        "classifier__max_iter":[1000,2000,5000],
+        "classifier__class_weight":["balanced",None]
+    }                
     # param_grid_knn= {
     #     "classifier__n_neighbors":[3,4,5],
     #     "classifier__weights":['uniform', 'distance'],
@@ -187,22 +187,22 @@ def pipe(df,target, categorize_BMI, categorize_BloodGlucose, categorize_Triglyce
     #     "classifier__bagging_temperature": [0, 1, 10],
     #     "classifier__auto_class_weights": ["Balanced"]
     # }
-    param_grid_svc= {
-        "classifier__C":[0.01, 0.1, 1, 10, 100],
-        "classifier__kernel":['linear', 'poly', 'rbf', 'sigmoid'],
-        "classifier__gamma":['scale', 'auto'],
-        "classifier__class_weight":["balanced",None]
-    }
+    # param_grid_svc= {
+    #     "classifier__C":[0.01, 0.1, 1, 10, 100],
+    #     "classifier__kernel":['linear', 'poly', 'rbf', 'sigmoid'],
+    #     "classifier__gamma":['scale', 'auto'],
+    #     "classifier__class_weight":["balanced",None]
+    # }
 
     modelos = {
         # 'Random_Forest': (RandomForestClassifier(random_state=42), param_grid_rf),
         # 'XGBoost': (XGBClassifier(verbosity=0, random_state=42, scale_pos_weight=70/30), param_grid_xgb),
         # 'LightGBM':(LGBMClassifier(random_state= 42, verbose = -100), param_grid_lgb),
         # 'DecisionTree':(DecisionTreeClassifier(random_state= 42), param_grid_tree),
-        # 'LogisticRegression':(LogisticRegression(random_state=42), param_grid_lg),
+        'LogisticRegression':(LogisticRegression(random_state=42), param_grid_lg),
         # 'KNeighbors':(KNeighborsClassifier(), param_grid_knn),
         # 'CatBoost':(CatBoostClassifier(random_state= 42, verbose= False), param_grid_cat),
-        'SVC':(SVC(random_state= 42), param_grid_svc),
+        # 'SVC':(SVC(random_state= 42), param_grid_svc),
     }
 
     resultados = {}
