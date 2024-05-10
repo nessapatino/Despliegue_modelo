@@ -10,10 +10,10 @@ from sklearn.svm import SVC
 # from xgboost import XGBClassifier
 # from lightgbm import LGBMClassifier
 # from catboost import CatBoostClassifier
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
-from sklearn.neighbors import KNeighborsClassifier
+# from sklearn.tree import DecisionTreeClassifier
+# from sklearn.ensemble import RandomForestClassifier
+# from sklearn.linear_model import LogisticRegression
+# from sklearn.neighbors import KNeighborsClassifier
 
 from funciones import categorize_BMI, categorize_BloodGlucose, categorize_Triglycerides, categorize_HDL, categorize_WaistCirc
 
@@ -111,14 +111,14 @@ def pipe(df,target, categorize_BMI, categorize_BloodGlucose, categorize_Triglyce
     )
 
     modelos = {
-        'RandomForest': RandomForestClassifier(random_state=42, class_weight="balanced"),
+        # 'RandomForest': RandomForestClassifier(random_state=42, class_weight="balanced"),
         # 'XGBoost': XGBClassifier(verbosity=0, random_state=42, scale_pos_weight=70/30),
         # 'LightGBM': LGBMClassifier(random_state=42, verbose=-100, class_weight='balanced'),
-        'LogisticRegression': LogisticRegression(max_iter=10000, class_weight='balanced'),
+        # 'LogisticRegression': LogisticRegression(max_iter=10000, class_weight='balanced'),
         # 'CatBoost': CatBoostClassifier(random_state=42, verbose=False, auto_class_weights='Balanced'),
-        'DecisionTree': DecisionTreeClassifier(random_state=42, class_weight="balanced"),
+        # 'DecisionTree': DecisionTreeClassifier(random_state=42, class_weight="balanced"),
         'SVC': SVC(random_state=42, class_weight='balanced'),
-        'KNeighbors': KNeighborsClassifier(n_neighbors=4)
+        # 'KNeighbors': KNeighborsClassifier(n_neighbors=4)
     }
 
     resultados = {}
@@ -135,14 +135,14 @@ def pipe(df,target, categorize_BMI, categorize_BloodGlucose, categorize_Triglyce
 
     df_resultados = pd.DataFrame(resultados, index=['Media Recall']).T.sort_values(by='Media Recall', ascending=False)
 
-    param_grid_rf = {
-        "classifier__n_estimators": [50,100,200],
-        "classifier__max_depth": [None,20,30],
-        "classifier__min_samples_split": [2, 10, 20],
-        "classifier__min_samples_leaf": [1,5,10],
-        "classifier__max_features": ["sqrt","log2",None],
-        "classifier__class_weight": ["balanced", None],
-    }
+    # param_grid_rf = {
+    #     "classifier__n_estimators": [50,100,200],
+    #     "classifier__max_depth": [None,20,30],
+    #     "classifier__min_samples_split": [2, 10, 20],
+    #     "classifier__min_samples_leaf": [1,5,10],
+    #     "classifier__max_features": ["sqrt","log2",None],
+    #     "classifier__class_weight": ["balanced", None],
+    # }
     # param_grid_xgb= {
         # 'classifier__n_estimators': [50, 100, 200],
         # 'classifier__learning_rate': [0.01, 0.05, 0.1],
@@ -160,25 +160,25 @@ def pipe(df,target, categorize_BMI, categorize_BloodGlucose, categorize_Triglyce
     #     "classifier__subsample": [0.8, 1.0],
     #     "classifier__colsample_bytree": [0.8, 1.0]
     # }
-    param_grid_tree = {
-        "classifier__criterion": ["gini","entropy"],
-        "classifier__splitter": ["best", "random"],
-        "classifier__max_depth": [None,20,30,40],
-        "classifier__min_samples_split":[2,10,20],
-        "classifier__min_samples_leaf":[1,5,10],
-        "classifier__max_features": ["sqrt","log2",None],
-        "classifier__class_weight": ["balanced", None]
-    }
-    param_grid_lg= {
-        "classifier__C":[0.01, 0.1, 1, 10],
-        "classifier__max_iter":[1000,2000,5000],
-        "classifier__class_weight":["balanced",None]
-    }                
-    param_grid_knn= {
-        "classifier__n_neighbors":[3,4,5],
-        "classifier__weights":['uniform', 'distance'],
-        "classifier__metric":["manhattan","euclidean","chebyshev"]
-    }
+    # param_grid_tree = {
+    #     "classifier__criterion": ["gini","entropy"],
+    #     "classifier__splitter": ["best", "random"],
+    #     "classifier__max_depth": [None,20,30,40],
+    #     "classifier__min_samples_split":[2,10,20],
+    #     "classifier__min_samples_leaf":[1,5,10],
+    #     "classifier__max_features": ["sqrt","log2",None],
+    #     "classifier__class_weight": ["balanced", None]
+    # }
+    # param_grid_lg= {
+    #     "classifier__C":[0.01, 0.1, 1, 10],
+    #     "classifier__max_iter":[1000,2000,5000],
+    #     "classifier__class_weight":["balanced",None]
+    # }                
+    # param_grid_knn= {
+    #     "classifier__n_neighbors":[3,4,5],
+    #     "classifier__weights":['uniform', 'distance'],
+    #     "classifier__metric":["manhattan","euclidean","chebyshev"]
+    # }
     # param_grid_cat= {
     #     "classifier__iterations": [100, 300], 
     #     "classifier__learning_rate": [0.01, 0.05, 0.1],  
@@ -195,12 +195,12 @@ def pipe(df,target, categorize_BMI, categorize_BloodGlucose, categorize_Triglyce
     }
 
     modelos = {
-        'Random_Forest': (RandomForestClassifier(random_state=42), param_grid_rf),
+        # 'Random_Forest': (RandomForestClassifier(random_state=42), param_grid_rf),
         # 'XGBoost': (XGBClassifier(verbosity=0, random_state=42, scale_pos_weight=70/30), param_grid_xgb),
         # 'LightGBM':(LGBMClassifier(random_state= 42, verbose = -100), param_grid_lgb),
-        'DecisionTree':(DecisionTreeClassifier(random_state= 42), param_grid_tree),
-        'LogisticRegression':(LogisticRegression(random_state=42), param_grid_lg),
-        'KNeighbors':(KNeighborsClassifier(), param_grid_knn),
+        # 'DecisionTree':(DecisionTreeClassifier(random_state= 42), param_grid_tree),
+        # 'LogisticRegression':(LogisticRegression(random_state=42), param_grid_lg),
+        # 'KNeighbors':(KNeighborsClassifier(), param_grid_knn),
         # 'CatBoost':(CatBoostClassifier(random_state= 42, verbose= False), param_grid_cat),
         'SVC':(SVC(random_state= 42), param_grid_svc),
     }
@@ -236,4 +236,3 @@ if __name__ == "__main__":
     df = pd.read_csv("src/data/MetabolicSyndrome.csv")
     target = 'MetabolicSyndrome'
     pipe(df,target, categorize_BMI, categorize_BloodGlucose, categorize_Triglycerides, categorize_HDL, categorize_WaistCirc)
-    
