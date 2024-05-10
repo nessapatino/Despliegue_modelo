@@ -4,7 +4,7 @@ import pickle
 import subprocess
 from funciones import categorize_BMI, categorize_BloodGlucose, categorize_Triglycerides, categorize_HDL, categorize_WaistCirc
 import os
-import git
+from git import Repo
 os.chdir(os.path.dirname(__file__))
 
 from pipeline import pipe
@@ -15,11 +15,14 @@ app.config['DEBUG'] = True
 
 @app.route('/git_update', methods=['POST'])
 def git_update():
-    repo = git.Repo('./Despliegue_modelo')
+    repo = Repo('./Despliegue_modelo')
     origin = repo.remotes.origin
-    repo.create_head('main',
-                     origin.refs.main).set_tracking_branch(origin.refs.main).checkout()
+
+    # Asegúrate de que 'main' es el nombre correcto de la rama, y de que existe en el repositorio remoto
+    main_branch = repo.create_head('main', origin.refs.main)
+    main_branch.set_tracking_branch(origin.refs.main).checkout()
     origin.pull()
+
     return '', 200
 
 root_path= "/home/SindromeMetabolico/Despliegue_modelo/src/"
