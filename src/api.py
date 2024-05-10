@@ -18,7 +18,6 @@ def git_update():
     repo = Repo('/home/SindromeMetabolico/Despliegue_modelo')
     origin = repo.remotes.origin
 
-    # Asegúrate de que 'main' es el nombre correcto de la rama, y de que existe en el repositorio remoto
     main_branch = repo.create_head('main', origin.refs.main)
     main_branch.set_tracking_branch(origin.refs.main).checkout()
     origin.pull()
