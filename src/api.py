@@ -16,12 +16,13 @@ app.config['DEBUG'] = True
 @app.route('/git_update', methods=['POST'])
 def git_update():
     repo = Repo('/home/SindromeMetabolico/Despliegue_modelo')
+    servidor_web = '/var/www/sindromemetabolico_pythonanywhere_com_wsgi.py'
     origin = repo.remotes.origin
 
     main_branch = repo.create_head('main', origin.refs.main)
     main_branch.set_tracking_branch(origin.refs.main).checkout()
     origin.pull()
-
+    subprocess.run(['touch', servidor_web], check=True) # Trick to automatically reload PythonAnywhere WebServer
     return '', 200
 
 root_path= "/home/SindromeMetabolico/Despliegue_modelo/src/"
