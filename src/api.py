@@ -71,7 +71,7 @@ def hello_with_image_and_button():
     </head>
     <body>
         <div class="content">
-            <h1>PREDICCIÓN DE SÍNDROME METÁBOLICO</h1>
+            <h1>HA SIDO UN PLACER. VANE POR TU DEDICACION ALVARO POR EL SOBREESFUERZO Y LO BIEN QUE TE HAS READAPTADO Y MIGUEL:...... CAARA INVITATE A ALGO/h1>
             <a href="/predict"><button>Ir al formulario de predicción</button></a>
         </div>
     </body>
